@@ -1,17 +1,18 @@
 package com.revature.pens.daos;
 
-import com.revature.pens.models.Orders;
+import com.revature.pens.models.Pen;
 
 import java.util.List;
 
-public class OrdersDAO implements CrudDAO<Orders>{
+public class PenDAO implements CrudDAO<Pen>{
+
     @Override
-    public void save(Orders object) {
+    public void save(Pen object) {
 
     }
 
     @Override
-    public void update(Orders object) {
+    public void update(Pen object) {
 
     }
 
@@ -21,12 +22,12 @@ public class OrdersDAO implements CrudDAO<Orders>{
     }
 
     @Override
-    public List<Orders> getAll() {
+    public List<Pen> getAll() {
         return null;
     }
 
     @Override
-    public Orders getByID(String id) {
+    public Pen getByID(String id) {
         return null;
     }
 }

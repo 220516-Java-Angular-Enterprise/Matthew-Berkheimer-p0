@@ -11,8 +11,8 @@ public class Pen {
     private String image;
     private boolean retractable;
     private boolean refillable;
-    private double cost;
-    private int quantity;
+    private int cost; //todo might need to change costs to double
+
     //private TextImage image;// If I want to do text imgs
 
 }

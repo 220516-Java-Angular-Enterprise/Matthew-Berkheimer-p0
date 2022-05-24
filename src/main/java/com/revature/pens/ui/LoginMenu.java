@@ -109,11 +109,12 @@ public class LoginMenu implements IMenu{
                     System.out.println("\nConfirm Credentials (y/n)");
                     System.out.println("Username: " + username);
                     System.out.println("Password: " + password);
+                    //TODO ASK FOR EMAIL
                     System.out.println("\nEnter :");
                     String confirm = scan.nextLine().toLowerCase();
                     switch (confirm) {
                         case "y":
-                            User user = new User(UUID.randomUUID().toString(),username,password,"DEFAULT");
+                            User user = new User(UUID.randomUUID().toString(),username,password,"DEFAULT", "PUT EMAIL HERE");
                             new StoreMenu(user).start();
                             break fullLoop;
                         case "n":
