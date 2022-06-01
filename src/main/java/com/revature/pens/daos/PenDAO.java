@@ -2,6 +2,7 @@ package com.revature.pens.daos;
 
 import com.revature.pens.models.Pen;
 import com.revature.pens.models.User;
+import com.revature.pens.util.custom_exceptions.DatabaseAccessException;
 import com.revature.pens.util.database.DatabaseConnection;
 
 import java.sql.Connection;
@@ -26,9 +27,7 @@ public class PenDAO implements CrudDAO<Pen>{
             ps.setInt(6, object.getCost());
             ps.executeUpdate();
         }catch (SQLException e){
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to save pens in database. " + e.getMessage());
         }
     }
 
@@ -44,9 +43,7 @@ public class PenDAO implements CrudDAO<Pen>{
             ps.setString(6, object.getId());
             ps.executeUpdate();
         }catch (SQLException e){
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to update pens in database. " + e.getMessage());
         }
     }
 
@@ -57,9 +54,7 @@ public class PenDAO implements CrudDAO<Pen>{
             ps.setString(1, id);
             ps.executeUpdate();
         } catch (SQLException e){
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to delete pens in database. " + e.getMessage());
         }
     }
 
@@ -79,9 +74,7 @@ public class PenDAO implements CrudDAO<Pen>{
                 penList.add(pen);
             }
         }catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to access all pens in database. " + e.getMessage());
         }
         return penList;
     }

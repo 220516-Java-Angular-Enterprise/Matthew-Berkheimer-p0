@@ -1,0 +1,7 @@
+Log File for Database Access Failure
+Unable to access all users in database. 2022-06-01T04:46:31.760601300 ERROR: column "nimble" does not exist
+  Position: 8
+Unable to access all users in database. 2022-06-01T04:47:11.739709 ERROR: column "nimble" does not exist
+  Position: 8
+Unable to save Inventory in database. 2022-06-01T05:36:20.031627100 ERROR: duplicate key value violates unique constraint "pk_inventory_id"
+  Detail: Key (penid, storeid)=(4, 6b2d42fd-0868-4efa-92d3-eaed30e460b0) already exists.

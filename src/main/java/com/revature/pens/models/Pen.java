@@ -19,8 +19,14 @@ public class Pen {
     }
 
     public String getCostString(){
-        //todo
-        return "";
+        StringBuilder sb = new StringBuilder(Integer.toString(cost));
+        if(sb.length() >= 2) {
+            sb.insert(sb.length() - 2, ".");
+        }else {
+            sb.insert(sb.length() - 1, ".0");
+        }
+        sb.insert(0, "$");
+        return sb.toString();
     }
 
     public String getId() {

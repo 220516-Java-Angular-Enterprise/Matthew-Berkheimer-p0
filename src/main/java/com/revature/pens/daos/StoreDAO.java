@@ -2,12 +2,14 @@ package com.revature.pens.daos;
 
 import com.revature.pens.models.Store;
 import com.revature.pens.models.User;
+import com.revature.pens.util.custom_exceptions.DatabaseAccessException;
 import com.revature.pens.util.database.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +26,7 @@ public class StoreDAO implements CrudDAO<Store>{
             ps.setString(4, object.getState());
             ps.executeUpdate();
         }catch (SQLException e){
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to save stores in database. " + LocalDateTime.now() + " " + e.getMessage());
         }
     }
 
@@ -40,9 +40,7 @@ public class StoreDAO implements CrudDAO<Store>{
             ps.setString(4,object.getId());
             ps.executeUpdate();
         } catch (SQLException e){
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to update stores in database. " + LocalDateTime.now() + " " + e.getMessage());
         }
     }
 
@@ -53,9 +51,7 @@ public class StoreDAO implements CrudDAO<Store>{
             ps.setString(1, id);
             ps.executeUpdate();
         } catch (SQLException e){
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to delete in database. " + LocalDateTime.now() + " " + e.getMessage());
         }
     }
 
@@ -70,9 +66,7 @@ public class StoreDAO implements CrudDAO<Store>{
                 storeList.add(store);
             }
         }catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to access all stores in database. " + LocalDateTime.now() + " " + e.getMessage());
         }
         return storeList;
     }
@@ -91,9 +85,7 @@ public class StoreDAO implements CrudDAO<Store>{
                 store.setState(rs.getString("s_state"));
             }
         } catch (SQLException e){
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to access stores by id in database. " + LocalDateTime.now() + " " + e.getMessage());
         }
         return store;
     }

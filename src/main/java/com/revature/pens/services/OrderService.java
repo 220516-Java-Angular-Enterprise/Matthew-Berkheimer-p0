@@ -31,7 +31,6 @@ public class OrderService {
     public List<Order> getStoreOrders(String id){
         List<Order> otherList = orderDAO.getAll();
         List<Order> orderList = otherList.stream().filter(order -> order.getStoreID().equals(id)).collect(Collectors.toList());
-        orderList.forEach(System.out::println);
         return orderList;
     }
 }

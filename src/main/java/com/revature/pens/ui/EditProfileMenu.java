@@ -24,7 +24,7 @@ public class EditProfileMenu implements IMenu {
         this.uiHelper = uiHelper;
     }
 
-    //todo add on the fly editing
+
     @Override
     public void start() {
         String username;
@@ -96,12 +96,28 @@ public class EditProfileMenu implements IMenu {
                         user.setAddress(quitScanner.nextLine());
                         break ;
                     case "6":
-                        System.out.println("\nEnter new phone");
-                        user.setPhone(quitScanner.nextLine());
+                        while (true) {
+                            System.out.println("\nEnter new phone");
+                            phone = quitScanner.nextLine();
+                            if (userService.isValidPhone(phone)) {
+                                user.setPhone(phone);
+                                break;
+                            } else {
+                                System.out.println("Invalid phone");
+                            }
+                        }
                         break ;
                     case "7":
-                        System.out.println("\nEnter new credit card");
-                        user.setCcToken(quitScanner.nextLine());
+                        while (true) {
+                            System.out.println("\nEnter new credit card");
+                            cCard = quitScanner.nextLine();
+                            if (userService.isValidPhone(cCard)) {
+                                user.setCcToken(cCard);
+                                break;
+                            } else {
+                                System.out.println("Invalid Credit Card");
+                            }
+                        }
                         break ;
                     case "x":
                         break exit;

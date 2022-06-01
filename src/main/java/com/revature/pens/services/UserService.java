@@ -45,4 +45,12 @@ public class UserService {
     public boolean isValidEmail(String email){
         return email.matches("^([\\w][\\-\\_\\.]?)*\\w@([\\w+]\\-?)*\\w\\.\\w+$");
     }
+
+    public boolean isValidPhone(String phone){
+        return phone.matches("^[0-9]{10}$");
+    }
+
+    public boolean isValidCC(String cCard){
+        return cCard.matches("^[0-9]{16}$");
+    }
 }

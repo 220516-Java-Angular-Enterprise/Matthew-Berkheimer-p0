@@ -2,9 +2,11 @@ package com.revature.pens.daos;
 
 import com.revature.pens.models.Order;
 import com.revature.pens.models.User;
+import com.revature.pens.util.custom_exceptions.DatabaseAccessException;
 import com.revature.pens.util.database.DatabaseConnection;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +28,7 @@ public class OrderDAO implements CrudDAO<Order>{
             ps.setInt(8, object.getAmount());
             ps.executeUpdate();
         }catch (SQLException e){
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to save orders in database. " + LocalDateTime.now() + " " + e.getMessage());
         }
     }
 
@@ -43,9 +43,7 @@ public class OrderDAO implements CrudDAO<Order>{
             ps.setString(5, object.getOrderID());
             ps.executeUpdate();
         }catch (SQLException e){
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to update orders in database. " + LocalDateTime.now() + " " + e.getMessage());
         }
     }
 
@@ -57,9 +55,7 @@ public class OrderDAO implements CrudDAO<Order>{
             ps.setString(1, id);
             ps.executeUpdate();
         } catch (SQLException e){
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to delete orders in database. " + LocalDateTime.now() + " " + e.getMessage());
         }
     }
 
@@ -84,9 +80,7 @@ public class OrderDAO implements CrudDAO<Order>{
                 orderList.add(order);
             }
         }catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to get all orders in database. " + LocalDateTime.now() + " " + e.getMessage());
         }
         return orderList;
     }

@@ -48,7 +48,7 @@ public class StoreMenu implements IMenu{
     //todo add store orderhistory to the list
     //todo add checks in store service
     private void adminView(){
-        List<String> choices = Arrays.asList("Add Store", "Edit Store", "Delete Store", "Add Inventory", "Edit Inventory", "Delete Inventory","Shop");
+        List<String> choices = Arrays.asList("Add Store", "Edit Store", "Delete Store", "Add Inventory", "Edit Inventory", "Delete Inventory","Order History", "Shop");
         QuitScanner quitScanner = QuitScanner.getInstance();
         exit:
         while (true) {
@@ -73,6 +73,9 @@ public class StoreMenu implements IMenu{
                     deleteInventory();
                     break;
                 case "7":
+                    viewOrderHistory();
+                    break;
+                case "8":
                     customerView();
                     break;
                 case "x":
@@ -82,6 +85,32 @@ public class StoreMenu implements IMenu{
                     break;
             }
         }
+    }
+
+    private void viewOrderHistory(){
+        QuitScanner quitScanner = QuitScanner.getInstance();
+        exit:
+        while (true) {
+            System.out.println("\nSelect from list of stores to view order history");
+            List<Store> storeList = storeService.getAllStores();
+            List<String> choices = storeList.stream().map(store -> store.toString()).collect(Collectors.toList());
+            uiHelper.comLineList(choices);
+            String in = quitScanner.nextLine();
+            if (in.matches("\\d+")) {
+                int i = Integer.valueOf(in) - 1;
+                if(i >= 0 && i < storeList.size()){
+                    orderHistory(storeList.get(i));
+                    break exit;
+                }
+            } else if (in.equals("x")) {
+                break exit;
+            }
+            System.out.println("Invalid Input");
+        }
+    }
+
+    private void orderHistory(Store store){
+        uiHelper.orderDisplayShipped(orderService.getStoreOrders(store.getId()));
     }
 
     private void addStore(){
@@ -133,7 +162,7 @@ public class StoreMenu implements IMenu{
         QuitScanner quitScanner = QuitScanner.getInstance();
         exit:
         while (true) {
-            System.out.println("\nSelect from list of stores to delete");
+            System.out.println("\nSelect from list of stores to edit");
             List<Store> storeList = storeService.getAllStores();
             List<String> choices = storeList.stream().map(store -> store.toString()).collect(Collectors.toList());
             uiHelper.comLineList(choices);
@@ -273,16 +302,16 @@ public class StoreMenu implements IMenu{
         System.out.println("\nPlease enter new amount");
         String in = quitScanner.nextLine();
         if(in.matches("\\d+")) {
-            inventory.setAmount(Integer.valueOf(quitScanner.nextLine()));
+            inventory.setAmount(Integer.valueOf(in));
         }
         System.out.println("\nConfirm (y/n)");
         System.out.println("\nStore ID: " + inventory.getStoreID());
-        System.out.println("Pen ID: " + inventory.getPen());
+        System.out.println("Pen ID: " + inventory.getPenID());
         System.out.println("Amount: " + inventory.getAmount());
         switch (quitScanner.nextLine().toLowerCase()){
             case "y":
                 System.out.println("Changing Inventory...");
-                inventoryService.register(inventory);
+                inventoryService.update(inventory);
                 break;
             case "n":
                 break;
@@ -342,27 +371,44 @@ public class StoreMenu implements IMenu{
     //todo add verification for amount
     public void addOrder(Inventory inventory){
         QuitScanner quitScanner = QuitScanner.getInstance();
-        System.out.println("How many?");
-        //todo take in input here
-        int amount = Integer.valueOf(quitScanner.nextLine());
+        int amount = 0;
+        exitin:
+        while (true) {
+            System.out.println("How many?");
+            String s = quitScanner.nextLine();
+            if (s.matches("\\d+")) {
+                amount = Integer.valueOf(s);
+                if (amount > inventory.getAmount() || amount <= 0) {
+                    System.out.println("Invalid amount of Pens");
+                    continue exitin;
+                } else {
+                    break exitin;
+                }
+            } else {
+                System.out.println("Invalid Input");
+                continue exitin;
+            }
+        }
 
-        System.out.println("Confirm order (y/n)");
+        exit:
+        while (true) {
+            System.out.println("Confirm order (y/n)");
             switch (quitScanner.nextLine().toLowerCase()) {
                 case "y":
                     System.out.println("Placing Order...");
-                    //todo add order here
-                    Order order = new Order(UUID.randomUUID().toString(), inventory.getStoreID(), user.getId(), inventory.getPenID(), "INCART", LocalDateTime.now(),LocalDateTime.now(),amount);
+                    Order order = new Order(UUID.randomUUID().toString(), inventory.getStoreID(), user.getId(), inventory.getPenID(), "INCART", LocalDateTime.now(), LocalDateTime.now(), amount);
                     orderService.register(order);
                     inventory.setAmount(inventory.getAmount() - amount);
                     inventoryService.update(inventory);
-                    break;
+                    break exit;
                 case "n":
                     System.out.println("Canceling Order...");
-                    break;
+                    break exit;
                 default:
                     System.out.println("Invalid input");
                     break;
             }
+        }
 
     }
 
@@ -421,9 +467,5 @@ public class StoreMenu implements IMenu{
                     break;
             }
         }
-
-
-
-
     }
 }

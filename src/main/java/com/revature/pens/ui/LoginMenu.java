@@ -131,7 +131,7 @@ public class LoginMenu implements IMenu{
                     System.out.println("\nPlease Enter Email");
                     email = scan.nextLine();
                     if (!userService.isValidEmail(email)) {
-                        System.out.println("\nInvalid Email");
+                        System.out.println("\nInvalid Email (ex emailname-possiblehyphenordot@domainname.4dns)");
                     } else {
                         break;
                     }
@@ -144,11 +144,21 @@ public class LoginMenu implements IMenu{
                 while (true) {
                     System.out.println("\nPlease Enter Phone");
                     phone = scan.nextLine();
+                    if (!userService.isValidPhone(phone)) {
+                        System.out.println("\nInvalid phone must be 10 digits long (ex 4443336666)");
+                    } else {
+                        break;
+                    }
                     break;
                 }
                 while (true) {
                     System.out.println("\nPlease Enter Credit card");
                     creditCard = scan.nextLine();
+                    if (!userService.isValidCC(creditCard)) {
+                        System.out.println("\nInvalid creditCard must be 16 digits long (ex. 5555666655553333)");
+                    } else {
+                        break;
+                    }
                     break;
                 }
 

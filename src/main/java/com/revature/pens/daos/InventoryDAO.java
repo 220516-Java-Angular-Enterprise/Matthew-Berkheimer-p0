@@ -3,12 +3,14 @@ package com.revature.pens.daos;
 import com.revature.pens.models.Inventory;
 import com.revature.pens.models.Pen;
 import com.revature.pens.models.Store;
+import com.revature.pens.util.custom_exceptions.DatabaseAccessException;
 import com.revature.pens.util.database.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +26,7 @@ public class InventoryDAO implements CrudDAO<Inventory>{
             ps.setInt(3, object.getAmount());
             ps.executeUpdate();
         }catch (SQLException e){
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to save Inventory in database. " + LocalDateTime.now() + " " + e.getMessage());
         }
     }
 
@@ -39,9 +39,7 @@ public class InventoryDAO implements CrudDAO<Inventory>{
             ps.setString(3,object.getStoreID());
             ps.executeUpdate();
         } catch (SQLException e){
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to update Inventory in database. " + LocalDateTime.now() + " " + e.getMessage());
         }
     }
 
@@ -57,9 +55,7 @@ public class InventoryDAO implements CrudDAO<Inventory>{
             ps.setString(2, storeID);
             ps.executeUpdate();
         } catch (SQLException e){
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to delete Inventory in database. " + LocalDateTime.now() + " " + e.getMessage());
         }
     }
 
@@ -67,7 +63,7 @@ public class InventoryDAO implements CrudDAO<Inventory>{
     public List<Inventory> getAll() {
         List<Inventory> inventoryList= new ArrayList<>();
         try {
-            PreparedStatement ps = con.prepareStatement("select penid, storeid, amount, p.p_name, p.tipsize, p.color, p.\"cost\", s.s_address, s.s_city, s.s_state from inventories i inner join pens p on p.id = i.penid inner join stores s on s.id = i.storeid");
+            PreparedStatement ps = con.prepareStatement("select penid, storeid, amount, p.p_name, p.tipsize, p.color, p.\"cost\", s.s_address, s.s_city, s.s_state from inventories i inner join pens p on p.id = i.penid inner join stores s on s.id = i.storeid order by storeid");
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 String penID = rs.getString("penid");
@@ -78,9 +74,7 @@ public class InventoryDAO implements CrudDAO<Inventory>{
                 inventoryList.add(inventory);
             }
         }catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to access all Inventory in database. " + LocalDateTime.now() + " " + e.getMessage());
         }
         return inventoryList;
     }
@@ -99,9 +93,7 @@ public class InventoryDAO implements CrudDAO<Inventory>{
                 inventory.setAmount(rs.getInt("amount"));
             }
         } catch (SQLException e){
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to access Inventory by id in database. " + LocalDateTime.now() + " " + e.getMessage());
         }
         return inventory;
     }

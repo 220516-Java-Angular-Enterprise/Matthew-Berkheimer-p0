@@ -36,7 +36,7 @@ public class UIHelper {
             Pen pen = inventories.get(i).getPen();
             Store store = inventories.get(i).getStore();
             System.out.println("[" + (i+1) + "] " + pen.getName() + ", Amount: " + inventories.get(i).getAmount());
-            System.out.println("\t|-" + pen.getColor() + ", " + pen.getTipSize() + ", " + pen.getCost());
+            System.out.println("\t|-" + pen.getColor() + ", " + pen.getTipSize() + ", " + pen.getCostString());
             System.out.println("\t|-" + store.getAddress() + ", " + store.getCity() + ", " + store.getState());
 
         }

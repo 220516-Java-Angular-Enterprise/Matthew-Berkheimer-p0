@@ -18,11 +18,43 @@ public class UserServiceTest {
     }
 
     @Test
+    public void isValidPhone(){
+        //Act
+        String phone = "3334445555";
+        //Arrange
+        boolean isTrue = userService.isValidPhone(phone);
+        //Assert
+        assertTrue(isTrue);
+    }
+
+    @Test
+    public void isValidCC(){
+        //Act
+        String cc = "4444555566667777";
+        //Arrange
+        boolean isTrue = userService.isValidCC(cc);
+        //Assert
+        assertTrue(isTrue);
+    }
+
+    @Test
     public void isValidUsername() {
+        //Act
+        String password = "Eightcha";
+        //Arrange
+        boolean isTrue = userService.isValidUsername(password);
+        //Assert
+        assertTrue(isTrue);
     }
 
     @Test
     public void isValidPassword() {
+        //Act
+        String password = "P@ssw0rd";
+        //Arrange
+        boolean isTrue = userService.isValidPassword(password);
+        //Assert
+        assertTrue(isTrue);
     }
 
     @Test
@@ -38,10 +70,16 @@ public class UserServiceTest {
         //"jo--b.test@gmail.cc" invalid
         //"jobtest.@gmail.cc" invalid
         //"-jobtest@gmail.cc" invalid
-        String email = "-jobtest@gmail.cc";
         //Arrange
-        boolean isTrue = userService.isValidEmail(email);
         //Assert
-        assertTrue(isTrue);
+        assertArrayEquals(new boolean[]{false, false, false, true, false, true, false, false, true}, new boolean[]{userService.isValidEmail("-jobtest@gmail.cc"),
+                                                                                                                    userService.isValidEmail("jobtest.@gmail.cc"),
+                                                                                                                    userService.isValidEmail("jo--b.test@gmail.cc"),
+                                                                                                                    userService.isValidEmail("jo-b.test@gmail.cc"),
+                                                                                                                    userService.isValidEmail("job..test@gmail.cc"),
+                                                                                                                    userService.isValidEmail("job.test@gm-ail.cc"),
+                                                                                                                    userService.isValidEmail("job.test@-gmail.cc"),
+                                                                                                                    userService.isValidEmail("job.test@gmail-.cc"),
+                                                                                                                    userService.isValidEmail("job.test@gmail.com"),});
     }
 }

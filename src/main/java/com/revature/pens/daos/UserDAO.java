@@ -1,12 +1,14 @@
 package com.revature.pens.daos;
 
 import com.revature.pens.models.User;
+import com.revature.pens.util.custom_exceptions.DatabaseAccessException;
 import com.revature.pens.util.database.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,9 +30,7 @@ public class UserDAO implements CrudDAO<User>{
             ps.setString(9, object.getCcToken());
             ps.executeUpdate();
         }catch (SQLException e){
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to save users in database. " + LocalDateTime.now() + " " + e.getMessage());
         }
     }
 
@@ -49,9 +49,7 @@ public class UserDAO implements CrudDAO<User>{
             ps.setString(9,object.getId());
             ps.executeUpdate();
         } catch (SQLException e){
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to update users in database. " + LocalDateTime.now() + " " + e.getMessage());
         }
 
     }
@@ -63,15 +61,14 @@ public class UserDAO implements CrudDAO<User>{
             ps.setString(1, id);
             ps.executeUpdate();
         } catch (SQLException e){
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to delete users in database. " + LocalDateTime.now() + " " + e.getMessage());
         }
 
     }
 
     @Override
     public List<User> getAll() {
+        //"SELECT * FROM users"
         List<User> userList= new ArrayList<>();
         try {
             PreparedStatement ps = con.prepareStatement("SELECT * FROM users");
@@ -81,9 +78,7 @@ public class UserDAO implements CrudDAO<User>{
                 userList.add(user);
             }
         }catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            throw new DatabaseAccessException("Unable to access all users in database. " + LocalDateTime.now() + " " + e.getMessage());
         }
         return userList;
     }
