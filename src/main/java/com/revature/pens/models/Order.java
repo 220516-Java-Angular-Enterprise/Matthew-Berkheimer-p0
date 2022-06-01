@@ -3,6 +3,7 @@ package com.revature.pens.models;
 import java.time.LocalDateTime;
 
 public class Order {
+    private String orderID;
     private String storeID;
     private String customerID;
     private String penID;
@@ -10,11 +11,16 @@ public class Order {
     private LocalDateTime orderSent;
     private LocalDateTime orderReceived;
     private int amount;
+    //Attributes gotten from joins
+    private String storeAddress;
+    private String penName;
+    private String customerName;
     //todo might need to add cost in case pen price changes (ie sale)
     //private double cost; //In case the product price is changed
 
 
-    public Order(String storeID, String customerID, String penID, String status, LocalDateTime orderSent, LocalDateTime orderReceived, int amount) {
+    public Order(String orderID, String storeID, String customerID, String penID, String status, LocalDateTime orderSent, LocalDateTime orderReceived, int amount) {
+        this.orderID = orderID;
         this.storeID = storeID;
         this.customerID = customerID;
         this.penID = penID;
@@ -80,10 +86,43 @@ public class Order {
         this.amount = amount;
     }
 
+    public String getStoreAddress() {
+        return storeAddress;
+    }
+
+    public void setStoreAddress(String storeAddress) {
+        this.storeAddress = storeAddress;
+    }
+
+    public String getPenName() {
+        return penName;
+    }
+
+    public void setPenName(String penName) {
+        this.penName = penName;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getOrderID() {
+        return orderID;
+    }
+
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
+    }
+
     @Override
     public String toString() {
-        return "Orders{" +
-                "storeID='" + storeID + '\'' +
+        return "Order{" +
+                "orderID='" + orderID + '\'' +
+                ", storeID='" + storeID + '\'' +
                 ", customerID='" + customerID + '\'' +
                 ", penID='" + penID + '\'' +
                 ", status='" + status + '\'' +

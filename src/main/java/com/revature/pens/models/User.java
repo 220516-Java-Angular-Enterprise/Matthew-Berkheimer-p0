@@ -8,6 +8,10 @@ public class User {
     private String password;
     private String role;
     private String email;
+    private String name;
+    private String address;
+    private String phone;
+    private String ccToken;
 
     public User(String id, String username, String password, String role, String email) {
         this.id = id;
@@ -15,6 +19,18 @@ public class User {
         this.password = password;
         this.role = role;
         this.email = email;
+    }
+
+    public User(String id, String username, String password, String role, String email, String name, String address, String phone, String ccToken) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.email = email;
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.ccToken = ccToken;
     }
 
     public String getId() {
@@ -55,6 +71,38 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getCcToken() {
+        return ccToken;
+    }
+
+    public void setCcToken(String ccToken) {
+        this.ccToken = ccToken;
     }
 
     private String encryption(String password){

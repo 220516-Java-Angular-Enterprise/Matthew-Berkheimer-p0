@@ -8,14 +8,15 @@ public class Customer {
     private String name;
     private String address;
     private String phone;
-    //private String ccToken; //Credit Card Token
+    private String ccToken; //Credit Card Token
     private String userID; //Foreign id for SQL database
 
-    public Customer(String id, String name, String address, String phone, String userID) {
+    public Customer(String id, String name, String address, String phone, String ccToken, String userID) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.phone = phone;
+        this.ccToken = ccToken;
         this.userID = userID;
     }
 
@@ -51,6 +52,14 @@ public class Customer {
         this.phone = phone;
     }
 
+    public String getCcToken() {
+        return ccToken;
+    }
+
+    public void setCcToken(String ccToken) {
+        this.ccToken = ccToken;
+    }
+
     public String getUserID() {
         return userID;
     }
@@ -66,6 +75,7 @@ public class Customer {
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
+                ", ccToken='" + ccToken + '\'' +
                 ", userID='" + userID + '\'' +
                 '}';
     }

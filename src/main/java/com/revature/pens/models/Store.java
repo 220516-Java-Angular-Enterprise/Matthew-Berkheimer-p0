@@ -7,6 +7,10 @@ public class Store {
     private String city;
     private String state;
 
+    public Store(){
+
+    }
+
     public Store(String id, String address, String city, String state) {
         this.id = id;
         this.address = address;
@@ -48,11 +52,6 @@ public class Store {
 
     @Override
     public String toString() {
-        return "Store{" +
-                "id='" + id + '\'' +
-                ", address='" + address + '\'' +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
-                '}';
+        return address + ", " + city + ", " +state;
     }
 }

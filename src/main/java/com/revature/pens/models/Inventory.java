@@ -4,6 +4,13 @@ public class Inventory {
     private String penID;
     private String storeID;
     private int amount;
+    //Join attributes
+    private Pen pen;
+    private Store store;
+
+    public Inventory(){
+
+    }
 
     public Inventory(String penID, String storeID, int amount) {
         this.penID = penID;
@@ -33,6 +40,22 @@ public class Inventory {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public Pen getPen() {
+        return pen;
+    }
+
+    public void setPen(Pen pen) {
+        this.pen = pen;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
     }
 
     @Override
